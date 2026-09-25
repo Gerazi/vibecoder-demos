@@ -76,14 +76,17 @@
     }
     return best;
   }
-  // Доля выполненных дней за последние 30 — но не раньше дня создания привычки.
+  // Доля выполненных дней за последние 30 — начиная с того, что раньше:
+  // дня создания привычки или первой отметки (отметки можно ставить задним
+  // числом). Дни до начала не считаются пропусками.
   function rate30(h) {
     const set = new Set(h.done);
     const t = today();
+    const start = h.done.length && h.done[0] < h.created ? h.done[0] : h.created;
     let total = 0, done = 0;
     for (let i = 0; i < 30; i++) {
       const k = keyOf(addDays(t, -i));
-      if (k < h.created && !set.has(k)) break;
+      if (k < start) break;
       total++;
       if (set.has(k)) done++;
     }

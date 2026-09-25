@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Привычки — трекер в браузере</title>
+  <meta name="description" content="Трекер привычек без регистрации: отмечайте дни, следите за сериями, данные хранятся только в вашем браузере.">
+  <meta name="theme-color" content="#101418">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="head">
+      <div>
+        <h1>Привычки</h1>
+        <p class="sub" id="today-label"></p>
+      </div>
+      <div class="summary" id="summary" aria-live="polite"></div>
+    </header>
+
+    <form id="add-form" class="add" autocomplete="off">
+      <label class="visually-hidden" for="habit-name">Новая привычка</label>
+      <input id="habit-name" name="name" maxlength="60" placeholder="Новая привычка, например «10 минут растяжки»" required>
+      <div class="swatches" role="radiogroup" aria-label="Цвет" id="swatches"></div>
+      <button type="submit">Добавить</button>
+    </form>
+
+    <div class="days-head" id="days-head" aria-hidden="true"></div>
+    <ul class="habits" id="habits"></ul>
+
+    <section class="empty" id="empty" hidden>
+      <p class="empty-title">Здесь пока пусто</p>
+      <p>Добавьте первую привычку — одну, которую реально делать каждый день. Отмечайте дни кликом по клеткам: серия считается до вчерашнего дня, пока сегодняшний не закончился.</p>
+      <button type="button" class="ghost" id="add-examples">Добавить три для примера</button>
+    </section>
+
+    <footer class="foot">
+      <p>Данные хранятся только в этом браузере — на сервер ничего не уходит. Чтобы перенести их на другое устройство, сохраните файл и загрузите его там.</p>
+      <div class="foot-actions">
+        <button type="button" class="ghost" id="export">Сохранить в файл</button>
+        <label class="ghost file">Загрузить из файла<input type="file" id="import" accept="application/json"></label>
+        <a class="ghost" href="https://github.com/Gerazi/vibecoder-demos/tree/main/habits">Исходный код</a>
+      </div>
+      <p class="notice" id="notice" role="status"></p>
+    </footer>
+  </div>
+
+  <template id="habit-tpl">
+    <li class="habit">
+      <div class="habit-main">
+        <button type="button" class="habit-name" aria-expanded="false"></button>
+        <div class="habit-stats"></div>
+      </div>
+      <div class="cells"></div>
+      <div class="habit-more" hidden>
+        <div class="heat" aria-label="Последние 12 недель"></div>
+        <div class="habit-tools">
+          <button type="button" class="ghost small" data-act="rename">Переименовать</button>
+          <button type="button" class="ghost small danger" data-act="delete">Удалить</button>
+        </div>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

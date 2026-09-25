@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Веломастерская — шаблон одностраничника</title>
+  <meta name="description" content="Шаблон одностраничника для местной мастерской: услуги с ценами, часы работы, расчёт стоимости и заявка в Telegram или на почту.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ribbon">
+    Шаблон одностраничника. Название, цены и контакты — примеры, меняются в одном файле <code>config.js</code>.
+  </div>
+
+  <header class="top">
+    <a class="brand" href="#" data-bind="name"></a>
+    <nav class="nav">
+      <a href="#services">Услуги</a>
+      <a href="#calc">Расчёт</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <p class="status" id="status" aria-live="polite"></p>
+        <h1 data-bind="tagline"></h1>
+        <p class="lead">Приезжайте без записи или оставьте заявку — перезвоним и скажем цену до начала работы.</p>
+        <div class="hero-actions">
+          <a class="btn btn-dark" href="#calc">Посчитать стоимость</a>
+          <a class="btn btn-line" id="hero-phone" href="#"></a>
+        </div>
+      </div>
+      <div class="hero-card" aria-hidden="true">
+        <svg viewBox="0 0 220 140" class="bike">
+          <circle cx="50" cy="95" r="38" />
+          <circle cx="170" cy="95" r="38" />
+          <path d="M50 95 L90 45 L140 45 L170 95 M90 45 L110 95 L140 45 M110 95 L50 95 M85 35 L100 35 M140 45 L135 28 L150 28" />
+        </svg>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <h2>Услуги и цены</h2>
+      <p class="muted">Цена — нижняя граница. Итог зависит от состояния велосипеда, его называем при приёмке.</p>
+      <div class="services" id="services-list"></div>
+    </section>
+
+    <section id="calc" class="section calc">
+      <div>
+        <h2>Сколько это будет стоить</h2>
+        <p class="muted">Отметьте, что нужно сделать, — получится ориентир по цене и времени. Заявка уйдёт вместе со списком.</p>
+        <form id="calc-form" class="calc-list"></form>
+      </div>
+      <aside class="calc-total" aria-live="polite">
+        <p class="calc-label">Ориентир</p>
+        <p class="calc-sum" id="calc-sum">0 ₽</p>
+        <p class="calc-time" id="calc-time">Выберите хотя бы одну работу</p>
+
+        <form id="request" class="request" novalidate>
+          <label>Как к вам обращаться
+            <input name="name" autocomplete="name" required>
+          </label>
+          <label>Телефон или ник в Telegram
+            <input name="contact" required>
+          </label>
+          <label>Что с велосипедом
+            <textarea name="comment" rows="3" placeholder="Например: скрипит каретка, задний тормоз не держит"></textarea>
+          </label>
+          <p class="form-error" id="form-error" role="alert"></p>
+          <div class="request-actions">
+            <button type="submit" class="btn btn-dark" data-channel="telegram" id="send-telegram">Отправить в Telegram</button>
+            <button type="submit" class="btn btn-line" data-channel="email">Отправить на почту</button>
+            <button type="button" class="btn-link" id="copy-request">Скопировать текст заявки</button>
+          </div>
+          <p class="hint" id="copy-hint" aria-live="polite"></p>
+        </form>
+      </aside>
+    </section>
+
+    <section class="section faq">
+      <h2>Частые вопросы</h2>
+      <div id="faq-list"></div>
+    </section>
+
+    <section id="contacts" class="section contacts">
+      <div>
+        <h2>Как нас найти</h2>
+        <p class="address"><span data-bind="city"></span>, <span data-bind="address"></span></p>
+        <p><a id="contact-phone" href="#"></a></p>
+        <p><a id="contact-email" href="#"></a></p>
+      </div>
+      <div>
+        <h3>Часы работы</h3>
+        <table class="hours" id="hours"></table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span data-bind="name"></span> · шаблон, исходный код — <a href="https://github.com/Gerazi/vibecoder-demos/tree/main/landing">GitHub</a>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

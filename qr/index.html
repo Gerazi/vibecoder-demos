@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR-код — генератор для ссылок, Wi-Fi и визиток</title>
+  <meta name="description" content="Генератор QR-кодов прямо в браузере: ссылка или текст, подключение к Wi-Fi, визитка. Скачивание в PNG и SVG, ничего не отправляется на сервер.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="bar">
+    <span class="logo" aria-hidden="true">▦</span>
+    <span class="title">QR-код</span>
+    <span class="bar-note">генерируется в браузере, данные никуда не отправляются</span>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="tabs" role="tablist" aria-label="Что закодировать">
+        <button role="tab" aria-selected="true" data-mode="text" id="tab-text">Ссылка или текст</button>
+        <button role="tab" aria-selected="false" data-mode="wifi" id="tab-wifi">Wi-Fi</button>
+        <button role="tab" aria-selected="false" data-mode="vcard" id="tab-vcard">Визитка</button>
+      </div>
+
+      <form id="form" autocomplete="off">
+        <fieldset data-mode="text">
+          <label>Что закодировать
+            <textarea name="text" rows="4" placeholder="https://… или любой текст"></textarea>
+          </label>
+          <p class="hint">Ссылку сканер телефона откроет сразу, текст — покажет.</p>
+        </fieldset>
+
+        <fieldset data-mode="wifi" hidden>
+          <label>Название сети (SSID)
+            <input name="ssid" placeholder="Как сеть видна в списке">
+          </label>
+          <label>Пароль
+            <input name="password" type="text" placeholder="Пусто — сеть без пароля">
+          </label>
+          <div class="row">
+            <label>Защита
+              <select name="security">
+                <option value="WPA">WPA / WPA2 / WPA3</option>
+                <option value="WEP">WEP</option>
+                <option value="nopass">Без пароля</option>
+              </select>
+            </label>
+            <label class="check"><input type="checkbox" name="hidden"> Скрытая сеть</label>
+          </div>
+          <p class="hint">Гость наводит камеру — телефон предлагает подключиться, пароль вводить не нужно.</p>
+        </fieldset>
+
+        <fieldset data-mode="vcard" hidden>
+          <div class="row">
+            <label>Имя <input name="first" autocomplete="off"></label>
+            <label>Фамилия <input name="last" autocomplete="off"></label>
+          </div>
+          <label>Телефон <input name="phone" type="tel"></label>
+          <label>Почта <input name="email" type="email"></label>
+          <div class="row">
+            <label>Компания <input name="org"></label>
+            <label>Должность <input name="role"></label>
+          </div>
+          <label>Сайт <input name="url" placeholder="https://"></label>
+          <p class="hint">После сканирования телефон предложит сохранить контакт.</p>
+        </fieldset>
+
+        <details class="options">
+          <summary>Оформление и надёжность</summary>
+          <div class="row">
+            <label>Цвет кода <input type="color" name="fg" value="#111827"></label>
+            <label>Фон <input type="color" name="bg" value="#ffffff"></label>
+            <label>Поле вокруг
+              <select name="margin">
+                <option value="0">без поля</option>
+                <option value="2">узкое</option>
+                <option value="4" selected>стандартное</option>
+                <option value="6">широкое</option>
+              </select>
+            </label>
+          </div>
+          <label>Коррекция ошибок
+            <select name="ecc">
+              <option value="L">L — 7%: больше данных влезет</option>
+              <option value="M" selected>M — 15%: обычный выбор</option>
+              <option value="Q">Q — 25%: для печати на улице</option>
+              <option value="H">H — 30%: если поверх будет логотип</option>
+            </select>
+          </label>
+        </details>
+      </form>
+    </section>
+
+    <section class="preview">
+      <div class="canvas-wrap" id="canvas-wrap">
+        <canvas id="canvas" width="320" height="320" aria-label="QR-код"></canvas>
+        <p class="placeholder" id="placeholder">Заполните поля слева — код появится здесь</p>
+      </div>
+      <p class="warn" id="warn" role="alert"></p>
+      <p class="meta" id="meta"></p>
+      <div class="actions">
+        <label class="size">PNG
+          <select id="png-size">
+            <option value="512">512 px</option>
+            <option value="1024" selected>1024 px</option>
+            <option value="2048">2048 px</option>
+          </select>
+        </label>
+        <button type="button" id="dl-png" class="primary" disabled>Скачать PNG</button>
+        <button type="button" id="dl-svg" disabled>Скачать SVG</button>
+      </div>
+      <details class="raw">
+        <summary>Что именно закодировано</summary>
+        <pre id="raw"></pre>
+      </details>
+    </section>
+  </main>
+
+  <footer class="foot">
+    Кодирование — библиотека qrcode-generator (MIT, Kazuhiko Arase). Исходный код страницы —
+    <a href="https://github.com/Gerazi/vibecoder-demos/tree/main/qr">GitHub</a>.
+  </footer>
+
+  <script src="vendor/qrcode.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

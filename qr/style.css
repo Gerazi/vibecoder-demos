@@ -11,6 +11,7 @@
   --mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 var(--font); }
 button, input, select, textarea { font: inherit; color: inherit; }
 
